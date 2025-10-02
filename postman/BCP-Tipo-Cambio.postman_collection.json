@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "86cf4383-1961-412f-aa28-d9b76b4f4c9f",
+		"name": "BCP-Tipo-Cambio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4873800"
+	},
+	"item": [
+		{
+			"name": "Tipo-Cambio",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/exchange?dni=12345678&from=USD&to=PEN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"exchange"
+					],
+					"query": [
+						{
+							"key": "dni",
+							"value": "12345678"
+						},
+						{
+							"key": "from",
+							"value": "USD"
+						},
+						{
+							"key": "to",
+							"value": "PEN"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://free.e-api.net.pe/tipo-cambio/today.json",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://free.e-api.net.pe/tipo-cambio/today.json",
+					"protocol": "https",
+					"host": [
+						"free",
+						"e-api",
+						"net",
+						"pe"
+					],
+					"path": [
+						"tipo-cambio",
+						"today.json"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
