@@ -1,5 +1,7 @@
 package com.bcp.exchange.service;
 
+import com.bcp.exchange.repository.ExchangeQueryRepository;
+import com.bcp.exchange.util.Constants;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -14,21 +16,15 @@ import java.time.LocalDate;
 @ApplicationScoped
 public class ExchangeService {
 
-    private static final int LIMITE_CONSULTAS_DIARIAS = 10;
 
     @Inject
     @RestClient
     ExchangeApiClient exchangeApiClient;
 
-    public boolean getExchange(String dni) {
+    @Inject
+    ExchangeQueryRepository exchangeQueryRepository;
 
-        /*LocalDate hoy = LocalDate.now();
-        long consultasHoy = ExchangeQueryEntity.count(
-                "dni = ?1 AND fechaConsulta >= ?2 AND fechaConsulta < ?3",
-                dni,
-                java.sql.Date.valueOf(hoy),
-                java.sql.Date.valueOf(hoy.plusDays(1))
-        );*/
+    public boolean getExchange(String dni) {
 
         LocalDate hoy = LocalDate.now();
         long querysToday = ExchangeQueryEntity.find(
@@ -36,13 +32,13 @@ public class ExchangeService {
                         dni, java.sql.Date.valueOf(hoy))
                 .count();
 
-        return querysToday < LIMITE_CONSULTAS_DIARIAS;
+        return querysToday < Constants.DAILY_CONSULTATION_LIMIT;
     }
 
     @Transactional
     public void saveExchangeRate(String dni) {
         ExchangeQueryEntity query = new ExchangeQueryEntity(dni);
-        query.persist();
+        exchangeQueryRepository.saveExchangeRate(query);
     }
 
     public ExchangeResponseDTO getExchangeRate() {
